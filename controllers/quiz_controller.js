@@ -25,13 +25,8 @@ exports.index = function(req, res, next) {
    busqueda = '%' + busqueda.join('%') + '%';
    models.Quiz.findAll({where: ['question like ?' , busqueda]})
    .then(function(quizzes) {
-    if(req.params.format === 'json'){
-
-      for (var i in quizzes){
-        respuesta = respuesta + quizzes[i].toJSON() + ',';
-        console.log(quizzes[i].toJSON());
-      }
-      res.send(respuesta);
+    if(req.params.format === 'json'){   
+      res.send(JSON.stringify(quizzes));
     }
 
     if((!req.params.format) || (req.params.format === 'html')){
@@ -51,14 +46,8 @@ exports.index = function(req, res, next) {
   models.Quiz.findAll()
   .then(function(quizzes) {
     if(req.params.format === 'json'){
-
-      for (var i in quizzes){
-        respuesta = respuesta + quizzes[i].toJSON() + ',';
-        console.log(quizzes[i].toJSON());
-      }
-      res.send(respuesta);
+      res.send(JSON.stringify(quizzes));
     }
-
     if((!req.params.format) || (req.params.format === 'html')){
       res.render('quizzes/index.ejs', { quizzes: quizzes});
     } else {
