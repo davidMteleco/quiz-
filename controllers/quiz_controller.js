@@ -26,7 +26,8 @@ exports.index = function(req, res, next) {
    models.Quiz.findAll({where: ['question like ?' , busqueda]})
    .then(function(quizzes) {
     if(req.params.format === 'json'){   
-      res.send(JSON.stringify(quizzes));
+      //res.send(JSON.stringify(quizzes));
+      res.json({ quizzes: quizzes});
     }
 
     if((!req.params.format) || (req.params.format === 'html')){
@@ -46,7 +47,8 @@ exports.index = function(req, res, next) {
   models.Quiz.findAll()
   .then(function(quizzes) {
     if(req.params.format === 'json'){
-      res.send(JSON.stringify(quizzes));
+      //res.send(JSON.stringify(quizzes));
+      res.json({ quizzes: quizzes});
     }
     if((!req.params.format) || (req.params.format === 'html')){
       res.render('quizzes/index.ejs', { quizzes: quizzes});
