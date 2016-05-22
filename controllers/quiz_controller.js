@@ -5,7 +5,7 @@ var fs = require('fs');
 
 // Opciones para imagenes subidas a Cloudinary
 var cloudinary_image_options = { crop: 'limit', width: 200, height: 200, radius: 5, 
-                                 border: "3px_solid_blue", tags: ['core', 'quiz-2016'] };
+                                 border: "3px_solid_blue", tags: ['core', 'mi-quiz-david'] };
 
 
 // Autoload el quiz asociado a :quizId
