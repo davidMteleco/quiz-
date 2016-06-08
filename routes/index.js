@@ -44,14 +44,15 @@ router.delete('/users/:userId(\\d+)',   sessionController.loginRequired,
 										userController.destroy);  // borrar cuenta
 
 // Definición de rutas de /quizzes
-router.get('/quizzes',                     	quizController.index);
+router.get('/quizzes',                     	 quizController.index);
 router.get('/quizzes.:format?',                    quizController.index);
 router.get('/quizzes/:quizId(\\d+).:format?',      quizController.show);
 router.get('/quizzes/:quizId(\\d+)',       	quizController.show);
 router.get('/quizzes/:quizId(\\d+)/check', 	quizController.check);
 router.get('/quizzes/new',                 	sessionController.loginRequired, 
 											quizController.new);
-router.post('/quizzes',                    	sessionController.loginRequired, 
+router.post('/quizzes',                    	sessionController.loginRequired,
+
 											upload.single('image'),
 											quizController.create);
 router.get('/quizzes/:quizId(\\d+)/edit',  	sessionController.loginRequired, 
@@ -79,5 +80,8 @@ router.put('/quizzes/:quizId(\\d+)/comments/:commentId(\\d+)/accept',
 router.get('/author', function(req, res, next) {
   res.render('author');
 });
+
+//router.get('/quil',                     	sessionController.autologout);
+
 
 module.exports = router;

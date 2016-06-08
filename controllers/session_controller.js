@@ -3,6 +3,22 @@ var Sequelize = require('sequelize');
 var url = require('url');
 
 
+
+
+// exports.autologout = function(req, res, next) {
+//     if (req.session.user ) {
+// if (req.session.user.expires < Date.now()) {
+//  delete req.session.user;
+//       } else {
+//          req.session.user.expires = Date.now()+3000;
+//        }
+//     }
+//     next();
+// };
+
+
+
+
 // Middleware: Se requiere hacer login.
 //
 // Si el usuario ya hizo login anteriormente entonces existira 
@@ -21,6 +37,11 @@ exports.loginRequired = function (req, res, next) {
         res.redirect('/session?redir=' + (req.param('redir') || req.url));
     }
 };
+
+
+
+
+
 
 // MW que permite gestionar solamente si el usuario logeado es admin.
 exports.adminRequired = function(req, res, next){
@@ -80,6 +101,7 @@ var authenticate = function(login, password) {
     return models.User.findOne({where: {username: login}})
         .then(function(user) {
             if (user && user.verifyPassword(password)) {
+               user.time = 10;
                 return user;
             } else {
                 return null;
@@ -124,6 +146,8 @@ exports.create = function(req, res, next) {
                 // La sesión se define por la existencia de: req.session.user
                 req.session.user = {id:user.id, username:user.username, isAdmin:user.isAdmin};
 
+                if(!req.session.user.expires){req.session.user.expires = (new Date().getTime() + 120000);}
+                
                 res.redirect(redir); // redirección a redir
             } else {
                 req.flash('error', 'La autenticación ha fallado. Reinténtelo otra vez.');

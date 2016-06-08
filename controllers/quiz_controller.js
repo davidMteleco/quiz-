@@ -43,7 +43,6 @@ exports.ownershipRequired = function(req, res, next){
 
 // GET /quizzes
 exports.index = function(req, res, next) {
-  var respuesta = '';
 
   if(req.query.search){
    var busqueda = req.query.search.split(' ');

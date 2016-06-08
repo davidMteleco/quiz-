@@ -9,6 +9,7 @@ var partials = require('express-partials');
 var flash = require('express-flash');
 var methodOverride = require('method-override');
 
+
 var routes = require('./routes/index');
 
 var app = express();
@@ -29,6 +30,8 @@ if (app.get('env') === 'production') {
         }
     });
 }
+
+
 
 
 // uncomment after placing your favicon in /public
@@ -55,7 +58,42 @@ app.use(function(req, res, next) {
    next();
 });
 
+app.use(function(req, res, next) {
+    if (req.session.user ) {
+if (req.session.user.expires < new Date().getTime()) {
+ delete req.session.user;
+      } else {
+         req.session.user.expires = new Date().getTime() + 120000;
+       }
+    }
+    next();
+});
+
 app.use('/', routes);
+
+
+
+// exports.autologout = function(req, res, next) {
+//     if (req.session.user ) {
+// if (req.session.user.expires < Date.now()) {
+//  delete req.session.user;
+//       } else {
+//          req.session.user.expires = Date.now()+3000;
+//        }
+//     }
+//     next();
+// };
+
+
+// app.use(function (req, res, next) {
+//     if (req.session.user.time) {
+//         res.send('Hola');
+//         next();
+//     } else {
+//         req.session.user.time = 10;
+//     }
+// }); 
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
